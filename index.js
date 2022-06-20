@@ -35,7 +35,6 @@ app.get('/talker/:id', async (request, response) => {
 });
 
 app.post('/login', emailChecker, passwordChecker, (request, response) => {
-  const { email, password } = request.headers;
   const token = generateToken();
   response.status(HTTP_OK_STATUS).json({ token });
 });
