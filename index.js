@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs/promises');
+const generateToken = require('./middlewares/generateToken');
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,6 +30,12 @@ app.get('/talker/:id', async (request, response) => {
   if (!talker) return response.status(HTTP_NOTFOUND_STATUS).json({ message: NOTFOUND_MESSAGE });
 
   response.status(200).json(talker);
+});
+
+app.post('/login', (request, response) => {
+  const { email, password } = request.headers;
+  const token = generateToken();
+  response.status(HTTP_OK_STATUS).json({ token });
 });
 
 app.listen(PORT, () => {
