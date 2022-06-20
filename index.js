@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs/promises');
 const generateToken = require('./middlewares/generateToken');
+const emailChecker = require('./middlewares/emailChecker');
+const passwordChecker = require('./middlewares/passwordChecker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -32,7 +34,7 @@ app.get('/talker/:id', async (request, response) => {
   response.status(200).json(talker);
 });
 
-app.post('/login', (request, response) => {
+app.post('/login', emailChecker, passwordChecker, (request, response) => {
   const { email, password } = request.headers;
   const token = generateToken();
   response.status(HTTP_OK_STATUS).json({ token });
