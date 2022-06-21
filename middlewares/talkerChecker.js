@@ -24,7 +24,7 @@ const talkerChecker = (request, response, next) => {
   if (!dateRegex.test(talk.watchedAt)) {
     return response.status(400).json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' });
   }
-  if (!talk.rate) {
+  if (!talk.rate && talk.rate !== 0) {
     return response.status(400).json({ message: 'O campo "rate" é obrigatório' });
   }
   if (talk.rate < 1 || talk.rate > 5 || !Number.isInteger(talk.rate)) {

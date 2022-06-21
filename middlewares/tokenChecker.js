@@ -1,6 +1,5 @@
 const tokenChecker = (request, response, next) => {
   const { authorization } = request.headers;
-  console.log('auth dentro do Checker: ', authorization);
   if (!authorization) {
     return response.status(401).json({ message: 'Token não encontrado' });
   }

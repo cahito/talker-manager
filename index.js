@@ -54,6 +54,17 @@ app.post('/talker', tokenChecker, talkerChecker, async (request, response) => {
   response.status(HTTP_OK_CREATED).json(newTalker);
 });
 
+app.put('/talker/:id', tokenChecker, talkerChecker, async (request, response) => {
+  const data = await fs.readFile('./talker.json')
+  const talkers = JSON.parse(data);
+  const changeTalker = request.body;
+  const index = talkers.find((talker, idx) => talker["name"].includes(changeTalker.name));
+  changeTalker.id = index.id;
+  talkers.splice(index.id -1, 1, changeTalker);
+  await fs.writeFile('./talker.json', JSON.stringify(talkers));
+  response.status(HTTP_OK_STATUS).json(changeTalker);
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });
